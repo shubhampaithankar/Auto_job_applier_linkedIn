@@ -185,9 +185,14 @@ def apply_filters() -> None:
         wait.until(EC.presence_of_element_located((By.XPATH, '//button[normalize-space()="All filters"]'))).click()
         buffer(recommended_wait)
 
-        wait_span_click(driver, sort_by)
-        wait_span_click(driver, date_posted)
-        buffer(recommended_wait)
+        buffer(1)
+        # Wait for and click 'Most recent' filter
+        if wait_span_click(driver, sort_by): 
+            buffer(2)
+
+        # Wait for and click 'Past 24 hours' filter
+        if wait_span_click(driver, date_posted): 
+            buffer(1)
 
         multi_sel(driver, experience_level) 
         multi_sel_noWait(driver, companies, actions)
